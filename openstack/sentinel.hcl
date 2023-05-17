@@ -7,5 +7,5 @@ policy "restrict-openstack-flavor-type" {
 
 policy "restrict-openstack-network-interfaces" {
   source = "./restrict-openstack-network-interfaces.sentinel"
-  enforcement_level = "mandatory"
+  enforcement_level = "hard-mandatory"
 }
