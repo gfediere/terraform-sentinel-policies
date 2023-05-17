@@ -1,0 +1,27 @@
+import "tfplan/v2" as tfplan
+
+# Get all instances from all modules
+openStack_instances = filter tfplan.resource_changes as _, rc {
+    rc.type is "openstack_compute_instance_v2" and
+        (rc.change.actions contains "create" or rc.change.actions is ["update"])
+}
+
+# Allowed Types
+allowed_types = [
+    "m1.micro",
+    "t2.small",
+    "t2.medium",
+]
+
+# Rule to restrict instance types
+instance_type_allowed = rule {
+    all openStack_instances as _, instance {
+        instance.change.after.flavor_name in allowed_types
+    }
+}
+
+# Main rule that requires other rules to be true
+main = rule {
+    (instance_type_allowed) else true
+}
+

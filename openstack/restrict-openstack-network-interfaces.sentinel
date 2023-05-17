@@ -1,0 +1,22 @@
+import "tfplan/v2" as tfplan
+
+interface_count = 3
+
+# Get all instances from all modules
+openStack_instances = filter tfplan.resource_changes as _, rc {
+    rc.type is "openstack_compute_instance_v2" and
+        (rc.change.actions contains "create" or rc.change.actions is ["update"])
+}
+
+mandatory_networkInt_numbers = rule {
+    all openStack_instances as address, r {
+      length(r.change.after.network) == interface_count 
+  }
+}
+
+# Main rule that requires other rules to be true
+main = rule {
+    (mandatory_networkInt_numbers) else true
+    #(instance_type_allowed and mandatory_instance_tags) else true
+}
+
