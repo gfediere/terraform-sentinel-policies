@@ -8,7 +8,7 @@ openStack_instances = filter tfplan.resource_changes as _, rc {
 
 # Allowed Types
 allowed_types = [
-    "m1.micro",
+    "m1.nano",
     "t2.small",
     "t2.medium",
 ]
