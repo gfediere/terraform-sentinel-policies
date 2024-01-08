@@ -27,7 +27,7 @@ policy "restrict-virtual-disk-size-and-type" {
 
 policy "restrict-vm-cpu-and-memory" {
     source = "./restrict-vm-cpu-and-memory.sentinel"
-    enforcement_level = "advisory"
+    enforcement_level = "hard-mandatory"
 }
 
 policy "restrict-vm-disk-size" {
